@@ -1,27 +1,80 @@
-export default function WorkersForm() {
+import { Formik, ErrorMessage } from 'formik';
+import * as yup from 'yup';
+import { nanoid } from 'nanoid';
+
+import {
+  FormStyle,
+  FieldStyle,
+  LabelStyle,
+  Button,
+  P,
+} from './WorkersForm.styled';
+
+const inputNameId = nanoid();
+const inputNumberId = nanoid();
+
+const schema = yup.object().shape({
+  firstName: yup
+    .string()
+    .matches(/^[a-zA-Zа-яА-Я]+$/, 'Is not in correct format')
+    .required(),
+  lastName: yup
+    .string()
+    .matches(/^[a-zA-Zа-яА-Я]+$/, 'Is not in correct format')
+    .required(),
+  department: yup
+    .string()
+    .matches(/^[a-zA-Zа-яА-Я]+$/, 'Is not in correct format')
+    .required(),
+  amount: yup.number().required().positive().integer(),
+});
+
+const FormError = ({ name }) => {
+  return <ErrorMessage name={name} render={massege => <P>{massege}</P>} />;
+};
+
+export default function WorkersForm({ onSubmit }) {
+  const handleSubmit = async (values, { resetForm }) => {
+    onSubmit(values);
+    resetForm();
+  };
+
   return (
-    <form action="">
-      <label htmlFor="">
-        <span>firstName</span>
-        <input type="text" />
-      </label>
+    <Formik
+      initialValues={{
+        firstName: '',
+        lastName: '',
+        department: '',
+        amount: '',
+      }}
+      validationSchema={schema}
+      onSubmit={handleSubmit}
+    >
+      <FormStyle>
+        <LabelStyle htmlFor={inputNameId}>
+          FirstName
+          <FieldStyle type="text" name="firstName" id={inputNameId} />
+          <FormError name="firstName" />
+        </LabelStyle>
+        <LabelStyle htmlFor={inputNameId}>
+          LastName
+          <FieldStyle type="text" name="lastName" id={inputNameId} />
+          <FormError name="lastName" />
+        </LabelStyle>
+        <LabelStyle htmlFor={inputNameId}>
+          Department
+          <FieldStyle type="text" name="department" id={inputNameId} />
+          <FormError name="department" />
+        </LabelStyle>
 
-      <label htmlFor="">
-        <span>lastName</span>
-        <input type="text" />
-      </label>
+        <LabelStyle htmlFor={inputNumberId}>
+          Salary amount
+          <FieldStyle type="number" name="amount" id={inputNumberId} />
+          <FormError name="amount" />
+        </LabelStyle>
 
-      <label htmlFor="">
-        <span>department</span>
-        <input type="text" />
-      </label>
-
-      <label htmlFor="">
-        <span>salary amount</span>
-        <input type="number" />
-      </label>
-
-      <button type="submit">add</button>
-    </form>
+        <Button type="submit">Add</Button>
+      </FormStyle>
+    </Formik>
   );
 }
