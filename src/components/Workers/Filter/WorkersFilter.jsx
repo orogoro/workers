@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Form, Label, Input, Select, InputRange } from './WorkersFilter.styled';
 
-const DEBOUNCE_DELAY = 300;
+// const DEBOUNCE_DELAY = 300;
 
 export default function WorkersFilter({
   contacts,
