@@ -1,47 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { nanoid } from 'nanoid';
 
 import WorkersForm from './Workers/WorkersForm/WorkersForm';
 import TableWorkers from './Workers/TableWorkers/TableWorkers';
 import Filter from './Workers/Filter/Filter';
 
-const contacts = [
-  {
-    id: '1',
-    firstName: 'John',
-    lastName: 'Smith',
-    department: 'IT',
-    amount: 3000,
-  },
-  {
-    id: '2',
-    firstName: 'Jane',
-    lastName: 'Doe',
-    department: 'IT',
-    amount: 3000.5,
-  },
-  {
-    id: '3',
-    firstName: 'Bob',
-    lastName: 'Colman',
-    department: 'Sales',
-    amount: 9000,
-  },
-  {
-    id: '4',
-    firstName: 'Barbara',
-    lastName: "O'Connor",
-    department: 'Sales',
-    amount: 4000,
-  },
-  {
-    id: '5',
-    firstName: 'Adam',
-    lastName: 'Murphy',
-    department: 'Administration',
-    amount: 2000,
-  },
-];
+import { contacts } from 'config/data';
 
 export const App = () => {
   const [lists, setLists] = useState(
@@ -49,18 +13,22 @@ export const App = () => {
   );
   const [filter, setFilter] = useState('');
   const [category, setCategory] = useState('all');
-  const [salaryStart, setSalaryStart] = useState('500');
-  const [salaryEnd, setSalaryEnd] = useState('20000');
+  const [salaryStart, setSalaryStart] = useState(
+    Math.min(...lists.map(list => list.amount))
+  );
+  const [salaryEnd, setSalaryEnd] = useState(
+    Math.max(...lists.map(list => list.amount))
+  );
 
   useEffect(() => {
     window.localStorage.setItem('lists', JSON.stringify(lists));
   }, [lists]);
 
   const addWorkers = ({ firstName, lastName, department, amount }) => {
-    const findFirstName = lists.map(list => list.firstName).includes(firstName);
-    const findLastName = lists.map(list => list.lastName).includes(lastName);
+    const isFirstNameExist = lists.some(item => item.firstName === firstName);
+    const isLastNameExist = lists.some(item => item.lastName === lastName);
 
-    if (findFirstName && findLastName) {
+    if (isFirstNameExist && isLastNameExist) {
       alert(`${firstName} ${lastName} is already in list`);
       return;
     }
@@ -76,50 +44,56 @@ export const App = () => {
     setLists(state => [...state, contact]);
   };
 
-  const changeFilter = e => {
-    const filterValue = e.currentTarget.value;
-    if (Number(filterValue)) {
-      if (Number(filterValue) < 10) {
+  const onChangeFilter = e => {
+    const { name, value } = e.target;
+
+    switch (name) {
+      case 'name':
+        setFilter(value);
+        break;
+
+      case 'category':
+        setCategory(value);
+        break;
+
+      case 'rate-start':
+        setSalaryStart(value);
+        break;
+
+      case 'rate-end':
+        setSalaryEnd(value);
+        break;
+
+      default:
         return;
-      }
-      setSalaryStart(filterValue);
-      return;
     }
-
-    setFilter(filterValue);
   };
 
-  const changeCategory = e => {
-    const filterValue = e.currentTarget.value;
-
-    if (Number(filterValue)) {
-      setSalaryEnd(filterValue);
-      return;
-    }
-
-    setCategory(filterValue);
-  };
-
-  const getVisibleContacts = () => {
+  const getVisibleContacts = useMemo(() => {
     const normalizedFilter = filter.toLowerCase();
+    let filteredList = [...lists];
 
-    if (normalizedFilter !== '') {
-      return lists.filter(list =>
+    if (filter !== '') {
+      filteredList = filteredList.filter(list =>
         list.firstName.toLowerCase().includes(normalizedFilter)
       );
     }
 
     if (category !== 'all') {
-      return lists.filter(item => item.department === category);
+      filteredList = filteredList.filter(item => item.department === category);
     }
 
     if (salaryStart >= '100' || salaryEnd <= '20000') {
-      return lists.filter(
+      filteredList = filteredList.filter(
         item => salaryStart <= item.amount && item.amount <= salaryEnd
       );
     }
 
-    return lists;
+    return filteredList;
+  }, [filter, lists, category, salaryStart, salaryEnd]);
+
+  const deleteContact = id => {
+    setLists(state => state.filter(contact => contact.id !== id));
   };
 
   return (
@@ -128,13 +102,16 @@ export const App = () => {
       <Filter
         contacts={lists}
         value={filter}
-        onChange={changeFilter}
-        handleChange={changeCategory}
+        onChange={onChangeFilter}
         salaryStart={salaryStart}
         salaryEnd={salaryEnd}
         category={category}
       />
-      <TableWorkers contacts={getVisibleContacts()} />
+
+      <TableWorkers
+        contacts={getVisibleContacts}
+        onDeleteContact={deleteContact}
+      />
     </div>
   );
 };

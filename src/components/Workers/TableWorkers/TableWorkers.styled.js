@@ -41,6 +41,15 @@ export const Td = styled.td`
 
 export const ButtonClose = styled.button`
   position: absolute;
-  top: 2px;
+  top: 3px;
   right: 8px;
+  background-color: #afeeee;
+  border-radius: 4px;
+  border: none;
+  transition: all 0.5s ease 0s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e0ffff;
+  }
 `;

@@ -2,7 +2,8 @@ import Painting from './Painting/Painting';
 
 import { Table, Thead, Tr, Tfoot } from './TableWorkers.styled';
 
-export default function TableWorkers({ contacts }) {
+export default function TableWorkers({ contacts, onDeleteContact }) {
+  // console.log(contacts);
   const total = contacts.reduce((acc, item) => acc + item.amount, 0);
   return (
     <Table>
@@ -23,6 +24,7 @@ export default function TableWorkers({ contacts }) {
               lastName={lastName}
               department={department}
               amount={amount}
+              onDeleteContact={() => onDeleteContact(id)}
             />
           </Tr>
         ))}

@@ -1,6 +1,12 @@
 import { ButtonClose, Td } from '../TableWorkers.styled';
 
-export default function Painting({ firstName, lastName, department, amount }) {
+export default function Painting({
+  firstName,
+  lastName,
+  department,
+  amount,
+  onDeleteContact,
+}) {
   return (
     <>
       <td>{firstName}</td>
@@ -8,7 +14,7 @@ export default function Painting({ firstName, lastName, department, amount }) {
       <td>{department}</td>
       <Td>
         {amount} USA
-        <ButtonClose>a</ButtonClose>
+        <ButtonClose onClick={onDeleteContact}>❌</ButtonClose>
       </Td>
     </>
   );
