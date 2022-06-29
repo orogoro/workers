@@ -1,6 +1,6 @@
-import { ButtonClose, Td } from '../TableWorkers.styled';
+import { ButtonClose, Td } from './WorkersTable.styled';
 
-export default function Painting({
+export default function WorkersItem({
   firstName,
   lastName,
   department,

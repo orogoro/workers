@@ -1,20 +1,30 @@
-import { Form, Label, Input, Select, InputRange } from './Filter.styled';
+import { useMemo } from 'react';
+import { Form, Label, Input, Select, InputRange } from './WorkersFilter.styled';
 
-export default function Filter({
+const DEBOUNCE_DELAY = 300;
+
+export default function WorkersFilter({
   contacts,
   value,
   onChange,
   salaryStart,
   salaryEnd,
-  category,
 }) {
   const allCategories = contacts.map(category => category.department);
   const uniqueCategories = allCategories.filter(
     (contact, index, array) => array.indexOf(contact) === index
   );
 
-  const start = Math.min(...contacts.map(list => list.amount));
-  const end = Math.max(...contacts.map(list => list.amount));
+  const [min, max] = useMemo(
+    () => [
+      Math.min(...contacts.map(list => list.amount)),
+      Math.max(...contacts.map(list => list.amount)),
+    ],
+    [contacts]
+  );
+
+  // const start = Math.min(...contacts.map(list => list.amount));
+  // const end = Math.max(...contacts.map(list => list.amount));
 
   return (
     <Form>
@@ -40,8 +50,8 @@ export default function Filter({
           name="rate-start"
           onChange={onChange}
           value={salaryStart}
-          min={start}
-          max={end}
+          min={min}
+          max={max}
           step="100"
         />
       </Label>
@@ -52,8 +62,8 @@ export default function Filter({
           name="rate-end"
           onChange={onChange}
           value={salaryEnd}
-          min={start}
-          max={end}
+          min={min}
+          max={max}
           step="100"
         />
       </Label>

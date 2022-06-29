@@ -34,7 +34,7 @@ const FormError = ({ name }) => {
 };
 
 export default function WorkersForm({ onSubmit }) {
-  const handleSubmit = async (values, { resetForm }) => {
+  const handleSubmit = (values, { resetForm }) => {
     onSubmit(values);
     resetForm();
   };

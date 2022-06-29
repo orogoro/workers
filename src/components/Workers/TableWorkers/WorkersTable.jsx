@@ -1,9 +1,8 @@
-import Painting from './Painting/Painting';
+import WorkersItem from './WorkersItem';
 
-import { Table, Thead, Tr, Tfoot } from './TableWorkers.styled';
+import { Table, Thead, Tr, Tfoot } from './WorkersTable.styled';
 
-export default function TableWorkers({ contacts, onDeleteContact }) {
-  // console.log(contacts);
+export default function WorkersTable({ contacts, onDeleteContact }) {
   const total = contacts.reduce((acc, item) => acc + item.amount, 0);
   return (
     <Table>
@@ -19,7 +18,7 @@ export default function TableWorkers({ contacts, onDeleteContact }) {
       <tbody>
         {contacts.map(({ id, firstName, lastName, department, amount }) => (
           <Tr key={id}>
-            <Painting
+            <WorkersItem
               firstName={firstName}
               lastName={lastName}
               department={department}
