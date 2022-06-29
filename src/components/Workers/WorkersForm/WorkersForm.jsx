@@ -1,6 +1,7 @@
 import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import { nanoid } from 'nanoid';
+import PropTypes from 'prop-types';
 
 import {
   FormStyle,
@@ -78,3 +79,7 @@ export default function WorkersForm({ onSubmit }) {
     </Formik>
   );
 }
+
+WorkersForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

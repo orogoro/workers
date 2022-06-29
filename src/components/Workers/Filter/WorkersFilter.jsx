@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import PropTypes from 'prop-types';
 
 import { Form, Label, Input, Select, InputRange } from './WorkersFilter.styled';
 
@@ -66,3 +67,19 @@ export default function WorkersFilter({
     </Form>
   );
 }
+
+WorkersFilter.protoTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired,
+      department: PropTypes.string.isRequired,
+      amount: PropTypes.number.isRequired,
+    })
+  ),
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  salaryStart: PropTypes.number.isRequired,
+  salaryEnd: PropTypes.number.isRequired,
+};

@@ -1,4 +1,5 @@
 import WorkersItem from './WorkersItem';
+import PropTypes from 'prop-types';
 
 import { Table, Thead, Tr, Tfoot } from './WorkersTable.styled';
 
@@ -39,3 +40,12 @@ export default function WorkersTable({ contacts, onDeleteContact }) {
     </Table>
   );
 }
+
+WorkersTable.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    })
+  ),
+  onDeleteContact: PropTypes.func.isRequired,
+};

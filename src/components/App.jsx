@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { nanoid } from 'nanoid';
+import Notiflix from 'notiflix';
 
 import { WorkersForm, WorkersTable, WorkersFilter } from './Workers';
 
@@ -27,7 +28,7 @@ export const App = () => {
     const isLastNameExist = lists.some(item => item.lastName === lastName);
 
     if (isFirstNameExist && isLastNameExist) {
-      alert(`${firstName} ${lastName} is already in list`);
+      Notiflix.Notify.failure(`${firstName} ${lastName} is already in list`);
       return;
     }
 

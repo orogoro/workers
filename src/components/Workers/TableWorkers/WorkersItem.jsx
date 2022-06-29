@@ -1,4 +1,5 @@
 import { ButtonClose, Td } from './WorkersTable.styled';
+import PropTypes from 'prop-types';
 
 export default function WorkersItem({
   firstName,
@@ -19,3 +20,11 @@ export default function WorkersItem({
     </>
   );
 }
+
+WorkersItem.propTypes = {
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+  department: PropTypes.string.isRequired,
+  amount: PropTypes.number.isRequired,
+  onDeleteContact: PropTypes.func.isRequired,
+};
