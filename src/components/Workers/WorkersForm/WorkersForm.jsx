@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
+import Loader from '../Loader/Loader';
 
 import {
   FormStyle,
@@ -35,8 +37,16 @@ const FormError = ({ name }) => {
 };
 
 export default function WorkersForm({ onSubmit }) {
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = (values, { resetForm }) => {
-    onSubmit(values);
+    setLoading(true);
+
+    setTimeout(() => {
+      onSubmit(values);
+      setLoading(false);
+    }, 500);
+
     resetForm();
   };
 
@@ -67,14 +77,14 @@ export default function WorkersForm({ onSubmit }) {
           <FieldStyle type="text" name="department" id={inputNameId} />
           <FormError name="department" />
         </LabelStyle>
-
         <LabelStyle htmlFor={inputNumberId}>
           Salary amount
           <FieldStyle type="number" name="amount" id={inputNumberId} />
           <FormError name="amount" />
         </LabelStyle>
 
-        <Button type="submit">Add</Button>
+        {loading && <Loader />}
+        {!loading && <Button type="submit">Add</Button>}
       </FormStyle>
     </Formik>
   );

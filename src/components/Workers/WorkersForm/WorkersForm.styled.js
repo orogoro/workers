@@ -4,7 +4,6 @@ import { Form, Field } from 'formik';
 export const FormStyle = styled(Form)`
   display: flex;
   flex-direction: column;
-  /* width: 400px; */
 `;
 export const LabelStyle = styled.label`
   display: flex;
@@ -40,6 +39,7 @@ export const Button = styled.button`
   background-color: #4169e1;
   transition: all 0.5s ease 0s;
   cursor: pointer;
+
   &:hover {
     background-color: #0000ff;
   }
