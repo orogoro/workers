@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
-import { Form, Label, Input, Select, InputRange } from './WorkersFilter.styled';
 
-// const DEBOUNCE_DELAY = 300;
+import { Form, Label, Input, Select, InputRange } from './WorkersFilter.styled';
 
 export default function WorkersFilter({
   contacts,
@@ -22,9 +21,6 @@ export default function WorkersFilter({
     ],
     [contacts]
   );
-
-  // const start = Math.min(...contacts.map(list => list.amount));
-  // const end = Math.max(...contacts.map(list => list.amount));
 
   return (
     <Form>

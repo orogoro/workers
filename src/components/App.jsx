@@ -1,6 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
 import { nanoid } from 'nanoid';
-// import useDebounce from './use-debounce';
 
 import { WorkersForm, WorkersTable, WorkersFilter } from './Workers';
 
@@ -18,9 +17,6 @@ export const App = () => {
   const [salaryEnd, setSalaryEnd] = useState(
     Math.max(...lists.map(list => list.amount))
   );
-  // console.log(salaryStart);
-
-  // const debouncedalaryStart = useDebounce(salaryStart, 500);
 
   useEffect(() => {
     window.localStorage.setItem('lists', JSON.stringify(lists));
@@ -108,7 +104,6 @@ export const App = () => {
         salaryStart={salaryStart}
         salaryEnd={salaryEnd}
       />
-
       <WorkersTable
         contacts={getVisibleContacts}
         onDeleteContact={deleteContact}
